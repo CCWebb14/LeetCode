@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} low
+ * @param {number} high
+ * @return {TreeNode}
+ */
+trimBST = (root, low, high) => {
+	trimmedTree = trimBSTHelper(root, low, high);
+
+	return trimmedTree;
+};
+
+trimBSTHelper = (n, low, high) => {
+	if (n === null) return n;
+
+	n.left = trimBSTHelper(n.left, low, high);
+	n.right = trimBSTHelper(n.right, low, high);
+
+	if (n.val >= low && n.val <= high) {
+		return n;
+	}
+
+	if (n.left !== null && n.right !== null) {
+		n.left.right = n.right;
+		return n.left;
+	}
+
+	if (n.left !== null && n.right === null) {
+		return n.left;
+	}
+
+	return n.right;
+};
